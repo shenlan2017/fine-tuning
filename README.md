@@ -6,21 +6,22 @@
 - docker compose up -d
 - docker compose exec llamafactory bash
 - pip install -r requirements.txt
+- pip install flash-attn==2.1.1 --no-build-isolation
 
 # 摘要生成
 
 ## *数据准备*
-- 训练集：`firefly/data/summary/sum_train_2048.jsonl`
-- 测试集：`firefly/data/summary/summary_test.jsonl`
+- 训练集：`fine-tuning/data/summary/sum_train_2048.jsonl`
+- 测试集：`fine-tuning/data/summary/summary_test.jsonl`
 - 模型：`Qwen2-1.5B`
 
 ## *Train*
 ```
-bash train.sh train_args/sft/lora/qwen1.5-7b-sft-lora.json
+bash train.sh train_args/sft/lora/qwen2-1.5b-sft-lora.json
 ```
 
-其中 `train_args/sft/lora/qwen1.5-7b-sft-lora.json` 为训练参数文件，可自行修改：
-- LoRA 训练文件为：`train_args/sft/lora/qwen1.5-7b-sft-lora.json`
+其中 `train_args/sft/lora/qwen2-1.5b-sft-lora.json` 为训练参数文件，可自行修改：
+- LoRA 训练文件为：`train_args/sft/lora/qwen2-1.5b-sft-lora.json`
 - Full-finetune 训练文件为：`train_args/sft/full/qwen2-1.5b-sft-full.json`
 - 训练参数文件：
   - `model_name_or_path: 输入模型地址`,
@@ -35,11 +36,11 @@ bash train.sh train_args/sft/lora/qwen1.5-7b-sft-lora.json
 ## *模型文件和生成结果文件:*
 
 ### *Full finetune：*
- - CKPT: `firefly/output_summary_demo/qwen2-1.5b-sft-full`
- - 生成结果：`firefly/output_summary_demo/qwen2-1.5b-sft-full/full/summary_test-res.jsonl` 
+ - CKPT: `fine-tuning/output_summary_demo/qwen2-1.5b-sft-full`
+ - 生成结果：`fine-tuning/output_summary_demo/qwen2-1.5b-sft-full/full/summary_test-res.jsonl` 
 ### *LoRA：*
- - CKPT: `firefly/output_summary_demo/firefly-qwen2-1.5b-sft-lora`
- - 生成结果：`firefly/output_summary_demo/firefly-qwen2-1.5b-sft-lora/lora/summary_test-res.jsonl`   
+ - CKPT: `fine-tuning/output_summary_demo/fine-tuning-qwen2-1.5b-sft-lora`
+ - 生成结果：`fine-tuning/output_summary_demo/fine-tuning-qwen2-1.5b-sft-lora/lora/summary_test-res.jsonl`   
 
 
 
@@ -75,7 +76,7 @@ bash summary_score.sh path/to/ground_truth_file path/to/generation_file
 
 或者
 
-python score.py --ground_truth_file firefly/data/summary/summary_test.jsonl --generated_file firefly/output_summary_demo/qwen2-1.5b-sft-full/full/summary_test-res.jsonl
+python score.py --ground_truth_file fine-tuning/data/summary/summary_test.jsonl --generated_file fine-tuning/output_summary_demo/qwen2-1.5b-sft-full/full/summary_test-res.jsonl
 ```
 
 
@@ -84,20 +85,20 @@ python score.py --ground_truth_file firefly/data/summary/summary_test.jsonl --ge
 
 
 ## *数据准备*
-- 训练集：`firefly/data/tools/glaive_toolcall_zh_1k_train.jsonl`
-- 测试集：`firefly/data/tools/glaive_toolcall_zh_1k_test.jsonl`
-- tools类型文件，训练时随机抽取不同的10个tools其中包括正确的tool: `firefly/data/tools/extracted_query_reply.jsonl`
+- 训练集：`fine-tuning/data/tools/glaive_toolcall_zh_1k_train.jsonl`
+- 测试集：`fine-tuning/data/tools/glaive_toolcall_zh_1k_test.jsonl`
+- tools类型文件，训练时随机抽取不同的10个tools其中包括正确的tool: `fine-tuning/data/tools/extracted_query_reply.jsonl`
 - 模型：`Qwen2-1.5B`
 
 
 ## *Train*
 
 ```
-bash train_tools.sh train_args/sft/lora/qwen1.5-7b-sft-lora-tools.json
+bash train_tools.sh train_args/sft/lora/qwen2-1.5b-sft-lora-tools.json
 ```
 
-其中 `train_args/sft/lora/qwen1.5-7b-sft-lora-tools.json` 为训练参数文件，可自行修改：
-- LoRA 训练文件为：`train_args/sft/lora/qwen1.5-7b-sft-lora-tools.json`
+其中 `train_args/sft/lora/qwen2-1.5b-sft-lora-tools.json` 为训练参数文件，可自行修改：
+- LoRA 训练文件为：`train_args/sft/lora/qwen2-1.5b-sft-lora-tools.json`
 - Full-finetune 训练文件为：`train_args/sft/full/qwen2-1.5b-sft-full-tools.json`
 - 训练参数文件：
   - `model_name_or_path: 输入模型地址`,
@@ -113,11 +114,11 @@ bash train_tools.sh train_args/sft/lora/qwen1.5-7b-sft-lora-tools.json
 
 ## *模型文件和生成结果文件:*
 ### *Full finetune：*
- - CKPT: `firefly/output_tools_call_demo/qwen2-1.5b-sft-full-tools-1k-train-1800`
- - 生成结果文件：`firefly/output_tools_call_demo/qwen2-1.5b-sft-full-tools-1k-train-1800/full/glaive_toolcall_zh_1k_test-res.jsonl` 
+ - CKPT: `fine-tuning/output_tools_call_demo/qwen2-1.5b-sft-full-tools-1k-train-1800`
+ - 生成结果文件：`fine-tuning/output_tools_call_demo/qwen2-1.5b-sft-full-tools-1k-train-1800/full/glaive_toolcall_zh_1k_test-res.jsonl` 
 ### *LoRA：*
- - CKPT: `firefly/output_tools_call_demo/firefly-qwen2-1.5b-sft-lora-tools-1800`
- - 生成结果文件： `firefly/output_tools_call_demo/firefly-qwen2-1.5b-sft-lora-tools-1800/lora/glaive_toolcall_zh_1k_test-res.jsonl`   
+ - CKPT: `fine-tuning/output_tools_call_demo/firefly-qwen2-1.5b-sft-lora-tools-1800`
+ - 生成结果文件： `fine-tuning/output_tools_call_demo/firefly-qwen2-1.5b-sft-lora-tools-1800/lora/glaive_toolcall_zh_1k_test-res.jsonl`   
 
 ## *推理*
 
@@ -148,7 +149,7 @@ python tool_chat.py --model_path path/to/model_path
 工具调用的指标为调用的工具是否准确，因此采用准确率作为计算方法：
 ```
 cd script/evaluate
-python tools_score.py --input_file firefly/output_tools_call_demo/qwen2-1.5b-sft-full-tools-1k-train-1800/full/glaive_toolcall_zh_1k_test-res.jsonl
+python tools_score.py --input_file fine-tuning/output_tools_call_demo/qwen2-1.5b-sft-full-tools-1k-train-1800/full/glaive_toolcall_zh_1k_test-res.jsonl
 或
-bash ./tools_score.sh  firefly/output_tools_call_demo/qwen2-1.5b-sft-full-tools-1k-train-1800/full/glaive_toolcall_zh_1k_test-res.jsonl 
+bash ./tools_score.sh  fine-tuning/output_tools_call_demo/qwen2-1.5b-sft-full-tools-1k-train-1800/full/glaive_toolcall_zh_1k_test-res.jsonl 
 ```
