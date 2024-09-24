@@ -40,7 +40,7 @@ bash train.sh train_args/sft/lora/qwen2-1.5b-sft-lora.json
  - 生成结果：`fine-tuning/output_summary_demo/qwen2-1.5b-sft-full/full/summary_test-res.jsonl` 
 ### *LoRA：*
  - CKPT: `fine-tuning/output_summary_demo/fine-tuning-qwen2-1.5b-sft-lora`
- - 生成结果：`fine-tuning/output_summary_demo/fine-tuning-qwen2-1.5b-sft-lora/lora/summary_test-res.jsonl`   
+ - 生成结果：`fine-tuning/output_summary_demo/fine-tuning-qwen2-1.5b-sft-lora/summary_test-res.jsonl`   
 
 
 
