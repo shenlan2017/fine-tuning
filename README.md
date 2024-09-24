@@ -39,8 +39,8 @@ bash train.sh train_args/sft/lora/qwen2-1.5b-sft-lora.json
  - CKPT: `fine-tuning/output_summary_demo/qwen2-1.5b-sft-full`
  - 生成结果：`fine-tuning/output_summary_demo/qwen2-1.5b-sft-full/full/summary_test-res.jsonl` 
 ### *LoRA：*
- - CKPT: `fine-tuning/output_summary_demo/fine-tuning-qwen2-1.5b-sft-lora`
- - 生成结果：`fine-tuning/output_summary_demo/fine-tuning-qwen2-1.5b-sft-lora/summary_test-res.jsonl`   
+ - CKPT: `fine-tuning/output_summary_demo/qwen2-1.5b-sft-lora`
+ - 生成结果：`fine-tuning/output_summary_demo/qwen2-1.5b-sft-lora/lora/summary_test-res.jsonl`   
 
 
 
@@ -117,8 +117,8 @@ bash train_tools.sh train_args/sft/lora/qwen2-1.5b-sft-lora-tools.json
  - CKPT: `fine-tuning/output_tools_call_demo/qwen2-1.5b-sft-full-tools-1k-train-1800`
  - 生成结果文件：`fine-tuning/output_tools_call_demo/qwen2-1.5b-sft-full-tools-1k-train-1800/full/glaive_toolcall_zh_1k_test-res.jsonl` 
 ### *LoRA：*
- - CKPT: `fine-tuning/output_tools_call_demo/firefly-qwen2-1.5b-sft-lora-tools-1800`
- - 生成结果文件： `fine-tuning/output_tools_call_demo/firefly-qwen2-1.5b-sft-lora-tools-1800/lora/glaive_toolcall_zh_1k_test-res.jsonl`   
+ - CKPT: `fine-tuning/output_tools_call_demo/qwen2-1.5b-sft-lora-tools-1800`
+ - 生成结果文件： `fine-tuning/output_tools_call_demo/qwen2-1.5b-sft-lora-tools-1800/lora/glaive_toolcall_zh_1k_test-res.jsonl`   
 
 ## *推理*
 
