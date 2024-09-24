@@ -1,8 +1,8 @@
 {
     "output_dir": "output/firefly-qwen2-1.5b-sft-lora-new",
-    "model_name_or_path": "/mapping-data/sharedLLMs/Qwen2-1.5B",
-    "deepspeed": "/mapping-data/qianli/firefly/train_args/ds_z3_config.json",
-    "train_file": "/mapping-data/qianli/firefly/data/sum_train_2048.jsonl",
+    "model_name_or_path": "./Qwen2-1.5B",
+    "deepspeed": "./train_args/ds_z3_config.json",
+    "train_file": "./data/sum_train_2048.jsonl",
     "template_name": "qwen",
     "train_mode": "lora",
     "num_train_epochs": 3,
