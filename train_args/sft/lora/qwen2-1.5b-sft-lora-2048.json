@@ -1,7 +1,7 @@
 {
     "output_dir": "output/qwen2-1.5b-sft-lora",
     "model_name_or_path": "./Qwen2-1.5B",
-    "deepspeed": "./train_args/ds_z3_config.json",
+    "deepspeed": "./train_args/ds_z2_config.json",
     "train_file": "./data/sum_train.jsonl",
     "template_name": "qwen",
     "train_mode": "lora",
