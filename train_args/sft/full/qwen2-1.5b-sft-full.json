@@ -1,0 +1,32 @@
+{
+    "output_dir": "output/qwen2-1.5b-sft-full-tools-1k",
+    "model_name_or_path": "./Qwen2-1.5B",
+    "deepspeed": "./train_args/ds_z3_config.json",
+    "train_file": "./data/tools/glaive_toolcall_zh_1k.jsonl",
+    "template_name": "qwen",
+    "train_mode": "full",
+    "num_train_epochs": 1,
+    "per_device_train_batch_size": 1,
+    "gradient_accumulation_steps": 2,
+    "learning_rate": 5e-6,
+    "max_seq_length": 2048,
+    "logging_steps": 5,
+    "save_total_limit": 2,
+    "lr_scheduler_type": "constant_with_warmup",
+    "warmup_steps": 20,
+    "gradient_checkpointing": true,
+    "disable_tqdm": false,
+    "optim": "adamw_hf",
+    "seed": 42,
+    "fp16": false,
+    "bf16": true,
+    "report_to": "tensorboard",
+    "dataloader_num_workers": 0,
+    "save_strategy": "epoch",
+    "weight_decay": 1e-4,
+    "max_grad_norm": 1.0,
+    "remove_unused_columns": false
+}
+
+
+
