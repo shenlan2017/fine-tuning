@@ -1,7 +1,7 @@
 accelerate==0.21.0
 transformers==4.34
 peft
-bitsandbytes==0.39.0
+bitsandbytes==0.44.0
 loguru==0.7.0
 numpy==1.21.4
 tqdm==4.62.3
