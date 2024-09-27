@@ -6,7 +6,7 @@
 - docker compose up -d
 - docker compose exec llamafactory bash
 - pip install -r requirements.txt
-- pip install flash-attn==2.1.1 --no-build-isolation
+- pip install --no-cache-dir flash-attn==2.1.1 --no-build-isolation
 
 # 摘要生成
 

@@ -27,19 +27,6 @@ RUN pip config set global.index-url "https://mirrors.tuna.tsinghua.edu.cn/pypi/w
 # Copy the rest of the application into the image
 COPY . /app
 
-# Install the LLaMA Factory
-RUN EXTRA_PACKAGES="metrics"; \
-    if [ "$INSTALL_BNB" == "true" ]; then \
-        EXTRA_PACKAGES="${EXTRA_PACKAGES},bitsandbytes"; \
-    fi; \
-    if [ "$INSTALL_VLLM" == "true" ]; then \
-        EXTRA_PACKAGES="${EXTRA_PACKAGES},vllm"; \
-    fi; \
-    if [ "$INSTALL_DEEPSPEED" == "true" ]; then \
-        EXTRA_PACKAGES="${EXTRA_PACKAGES},deepspeed"; \
-    fi; \
-    pip install -e ".[$EXTRA_PACKAGES]"
-
 # Rebuild flash attention
 RUN pip uninstall -y transformer-engine flash-attn && \
     if [ "$INSTALL_FLASHATTN" == "true" ]; then \
