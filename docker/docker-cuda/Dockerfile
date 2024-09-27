@@ -10,17 +10,17 @@ ENV VLLM_WORKER_MULTIPROC_METHOD=spawn
 # Define installation arguments
 ARG INSTALL_BNB=false
 ARG INSTALL_VLLM=false
-ARG INSTALL_DEEPSPEED=false
-ARG INSTALL_FLASHATTN=false
-ARG PIP_INDEX=https://pypi.org/simple
+ARG INSTALL_DEEPSPEED=true
+ARG INSTALL_FLASHATTN=true
+ARG PIP_INDEX=https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple
 
 # Set the working directory
 WORKDIR /app
 
 # Install the requirements
 COPY requirements.txt /app
-RUN pip config set global.index-url "$PIP_INDEX" && \
-    pip config set global.extra-index-url "$PIP_INDEX" && \
+RUN pip config set global.index-url "https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple" && \
+    pip config set global.extra-index-url "https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple" && \
     python -m pip install --upgrade pip && \
     python -m pip install -r requirements.txt
 
