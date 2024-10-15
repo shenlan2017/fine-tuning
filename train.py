@@ -45,7 +45,8 @@ os.environ['PATH'] = os.environ["PATH"] + ":/opt/conda/bin/ninja"
 
 
 def setup_everything():
-    parser = argparse.ArgumentParser()
+    '''参数解析，通过解析train_args_file 得到参数'''
+    parser = argparse.ArgumentParser()    
     # parser.add_argument("--train_args_file", type=str, default='train_args/pretrain/full/bloom-1b1-pretrain-full.json', help="")
     parser.add_argument("--train_args_file", type=str, default='train_args/sft/lora/qwen1.5-7b-sft-lora.json', help="")
     parser.add_argument("--local_rank", type=int, help="")
@@ -190,6 +191,7 @@ def load_pretrain_dataset(training_args, args, tokenizer):
 
 
 def load_tokenizer(args):
+    '''读取tokenizer分词器'''
     config = AutoConfig.from_pretrained(args.model_name_or_path, trust_remote_code=True)
     # 加载tokenzier
     tokenizer = AutoTokenizer.from_pretrained(
@@ -255,7 +257,7 @@ def load_unsloth_model(args, training_args):
 
 def load_model(args, training_args):
     """
-    加载模型
+    加载模型,涉及量化等因素综合考虑
     """
     assert training_args.bf16 or training_args.fp16, 'bf16 or fp16 should be True'
     logger.info(f'Loading model from base model: {args.model_name_or_path}')
@@ -264,7 +266,7 @@ def load_model(args, training_args):
     # init model kwargs
     # todo add flash attention
     # attn_implementation = None
-    torch_dtype = torch.float16 if training_args.fp16 else torch.bfloat16
+    torch_dtype = torch.float16 if training_args.fp16 else torch.bfloat16 # 指定模型
     if args.train_mode == 'qlora':
         quantization_config = BitsAndBytesConfig(
             load_in_4bit=True,
@@ -277,14 +279,14 @@ def load_model(args, training_args):
     else:
         quantization_config = None
     model_kwargs = dict(
-        trust_remote_code=True,
-        attn_implementation="flash_attention_2",
-        torch_dtype=torch_dtype,
-        use_cache=False if training_args.gradient_checkpointing else True,
-        device_map=get_kbit_device_map() if quantization_config is not None else None,
-        quantization_config=quantization_config,
+        trust_remote_code=True, # 加载远程代码
+        attn_implementation="flash_attention_2", # 注意力机制，flash_attention 可加速，目前支持Nvidia GPU显卡（如H100、A100、RTX X090、T4) ，如果不支持的话，这一行注释掉即可
+        torch_dtype=torch_dtype, # 模型精度
+        use_cache=False if training_args.gradient_checkpointing else True, # 是否使用缓存，加速推理
+        device_map=get_kbit_device_map() if quantization_config is not None else None, # 模型配置
+        quantization_config=quantization_config, # 量化配置
     )
-    model = AutoModelForCausalLM.from_pretrained(args.model_name_or_path, **model_kwargs)
+    model = AutoModelForCausalLM.from_pretrained(args.model_name_or_path, **model_kwargs) # 模型加载
 
     # moe模型，需要考虑负载均衡的loss
     if 'output_router_logits' in model.config.to_dict():

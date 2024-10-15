@@ -25,15 +25,15 @@ class SFTDataCollator(object):
             if input_ids is None:
                 logger.info('some input_ids is None')
                 continue
-            padding_len = batch_max_len - len(input_ids)
-            # padding
-            input_ids = input_ids + [self.pad_token_id] * padding_len
-            attention_mask = attention_mask + [0] * padding_len
-            target_mask = target_mask + [0] * padding_len
-            # truncate
-            input_ids = input_ids[:self.max_seq_length]
-            attention_mask = attention_mask[:self.max_seq_length]
-            target_mask = target_mask[:self.max_seq_length]
+            padding_len = batch_max_len - len(input_ids) # 确定padding的长度
+            # padding, 补齐
+            input_ids = input_ids + [self.pad_token_id] * padding_len # 利用padding_token补齐input_ids
+            attention_mask = attention_mask + [0] * padding_len # 利用padding_token补齐attention_mask
+            target_mask = target_mask + [0] * padding_len # 利用padding_token补齐target_mask
+            # truncate， 截断至最长长度
+            input_ids = input_ids[:self.max_seq_length] #input_ids 截断至最长长度
+            attention_mask = attention_mask[:self.max_seq_length] # attention_mask 截断至最长长度
+            target_mask = target_mask[:self.max_seq_length] # target_mask 截断至最长长度
 
             input_ids_batch.append(input_ids)
             attention_mask_batch.append(attention_mask)

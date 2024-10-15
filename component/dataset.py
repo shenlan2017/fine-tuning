@@ -34,8 +34,8 @@ class UnifiedSFTDataset(Dataset):
 
     def __getitem__(self, index):
         # 每条数据拼接格式为: {system_format}{user_format}{assistant_format}{user_format}{assistant_format}...
-        data = self.data_list[index]
-        data = json.loads(data)
+        data = self.data_list[index] # 单条数据 
+        data = json.loads(data)  # 利用json解析单条数据
         input_ids, target_mask = [], []
 
         # setting system information
@@ -44,38 +44,38 @@ class UnifiedSFTDataset(Dataset):
             # system信息不为空
             if system is not None:
                 system_text = self.system_format.format(content=system)
-                input_ids = self.tokenizer.encode(system_text, add_special_tokens=False)
-                target_mask = [0] * len(input_ids)
+                input_ids = self.tokenizer.encode(system_text, add_special_tokens=False) 
+                target_mask = [0] * len(input_ids)  # 0 表示该位置不需要预测
 
-        conversations = data['conversation']
+        conversations = data['conversation'] # 读取多轮对话数据
         # 拼接多轮对话
         for i, conv in enumerate(conversations):
-            human = conv['human'].strip()
+            human = conv['human'].strip() 
             assistant = conv['assistant'].strip()
-
+            # 套用format模板
             human = self.user_format.format(content=human, stop_token=self.tokenizer.eos_token)
             assistant = self.assistant_format.format(content=assistant, stop_token=self.tokenizer.eos_token)
-
+            # tokenizer 编码
             input_tokens = self.tokenizer.encode(human, add_special_tokens=False)
             output_tokens = self.tokenizer.encode(assistant, add_special_tokens=False)
-
+            # 拼接多轮对话
             input_ids += input_tokens + output_tokens
             target_mask += [0] * len(input_tokens) + [1] * len(output_tokens)
 
-        assert len(input_ids) == len(target_mask)
+        assert len(input_ids) == len(target_mask) # 断言处理
         # 对长度进行截断
         input_ids = input_ids[:self.max_seq_length]
         target_mask = target_mask[:self.max_seq_length]
-        attention_mask = [1] * len(input_ids)
+        attention_mask = [1] * len(input_ids) # 1 表示有token
         assert len(input_ids) == len(target_mask) == len(attention_mask)
         inputs = {
             'input_ids': input_ids,
             'attention_mask': attention_mask,
             'target_mask': target_mask
         }
-        return inputs
+        return inputs # 最后返回处理过后的单条数据
 unique_tools = set()
-with open("/mapping-data/qianli/firefly/data/tools/extracted_query_reply.jsonl", 'r', encoding='utf-8') as f:
+with open("data/tools/extracted_query_reply.jsonl", 'r', encoding='utf-8') as f:
     for line in tqdm(f, desc="Reading data"):
         obj = json.loads(line.strip())
 

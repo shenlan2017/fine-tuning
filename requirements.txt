@@ -1,11 +1,11 @@
 accelerate==0.21.0
-transformers==4.34
+transformers==4.37
 peft
 bitsandbytes==0.44.0
 loguru==0.7.0
 numpy==1.21.4
 tqdm==4.62.3
-deepspeed==0.9.5
+deepspeed  # 源码安装
 tensorboard
 sentencepiece
 transformers_stream_generator
