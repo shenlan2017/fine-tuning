@@ -14,7 +14,7 @@ SYS_INFO = {
 
 
 client = OpenAI(
-    api_key="sk-2386bbb9354f47a38a4e3b14aea0f919",  # 替换成真实DashScope的API_KEY
+    api_key="",  # 替换成真实DashScope的API_KEY
     base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",  # 填写DashScope服务endpoint
 )
 
