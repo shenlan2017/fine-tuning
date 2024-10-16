@@ -1,6 +1,6 @@
 {
     "output_dir": "output/firefly-qwen2-1.5b-sft-lora-tools-1800",
-    "model_name_or_path": "./Qwen2-1.5B",
+    "model_name_or_path": "/mnt/d/pycharm/victor/fine-tuning-main/Qwen2-1.5B",
     "deepspeed": "./train_args/ds_z2_config.json",
     "train_file": "./data/tools/glaive_toolcall_zh_1k_train.jsonl",
     "template_name": "qwen-tools",

@@ -5,7 +5,6 @@ unset HIP_PATH
 unset ROCM_VERSION
 CUDA_VISIBLE_DEVICES=0,1
 
-# 3090 或者 4090 需启用 如果是A系列卡可以取消
 export NCCL_P2P_DISABLE=1
 export NCCL_IB_DISABLE=1
 
@@ -14,3 +13,4 @@ echo
 # 启动DeepSpeed训练
 deepspeed --include localhost:0,1 train.py \
           --train_args_file  $train_args_file
+

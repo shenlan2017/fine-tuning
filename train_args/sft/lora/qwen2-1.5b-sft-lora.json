@@ -1,8 +1,8 @@
 {
     "output_dir": "output/firefly-qwen2-1.5b-sft-lora-new",
-    "model_name_or_path": "./Qwen2-1.5B",
+    "model_name_or_path": "/mnt/d/pycharm/victor/fine-tuning-main/Qwen2-1.5B",
     "deepspeed": "./train_args/ds_z2_config.json",
-    "train_file": "./data/sum_train_2048.jsonl",
+    "train_file": "./data/summary/sum_train_2048.jsonl",
     "template_name": "qwen",
     "train_mode": "lora",
     "num_train_epochs": 3,
