@@ -46,7 +46,7 @@ os.environ['PATH'] = os.environ["PATH"] + ":/opt/conda/bin/ninja"
 
 def setup_everything():
     '''参数解析，通过解析train_args_file 得到参数'''
-    parser = argparse.ArgumentParser()    
+    parser = argparse.ArgumentParser()
     # parser.add_argument("--train_args_file", type=str, default='train_args/pretrain/full/bloom-1b1-pretrain-full.json', help="")
     parser.add_argument("--train_args_file", type=str, default='train_args/sft/lora/qwen1.5-7b-sft-lora.json', help="")
     parser.add_argument("--local_rank", type=int, help="")
@@ -257,7 +257,7 @@ def load_unsloth_model(args, training_args):
 
 def load_model(args, training_args):
     """
-    加载模型,涉及量化等因素综合考虑
+    加载模型
     """
     assert training_args.bf16 or training_args.fp16, 'bf16 or fp16 should be True'
     logger.info(f'Loading model from base model: {args.model_name_or_path}')
@@ -266,7 +266,7 @@ def load_model(args, training_args):
     # init model kwargs
     # todo add flash attention
     # attn_implementation = None
-    torch_dtype = torch.float16 if training_args.fp16 else torch.bfloat16 # 指定模型
+    torch_dtype = torch.float16 if training_args.fp16 else torch.bfloat16
     if args.train_mode == 'qlora':
         quantization_config = BitsAndBytesConfig(
             load_in_4bit=True,
