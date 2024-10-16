@@ -34,6 +34,7 @@ def extract_tools_names(tools_list):
 def calculate_accuracy(input_file):
     acc = 0
     total = 0
+    
 
     with open(input_file, 'r', encoding='utf-8') as f:
         for line in f:
@@ -41,9 +42,13 @@ def calculate_accuracy(input_file):
             if obj.get('reply'):
                 reply_name = extract_name_from_reply(obj.get('reply', ''))
                 tools_names = extract_tools_names(obj.get('tools', []))
+
+
                 for tool in tools_names:
-                    if reply_name and tool.get('name'):
-                        if reply_name == tool['name']:
+                    if not tool: # 有空集出现的情况
+                        continue
+                    if reply_name and tool[0].get('name'):
+                        if reply_name == tool[0]['name']:
                             acc += 1
                             break
                 total += 1
@@ -53,10 +58,9 @@ def calculate_accuracy(input_file):
 def main():
     parser = argparse.ArgumentParser(description="Calculate accuracy of tool calls in JSONL file.")
     parser.add_argument("--input_file", type=str, required=True, help="Path to the input JSONL file.")
-
-    args = parser.parse_args()
-
+    args = parser.parse_args()  
     acc, total = calculate_accuracy(args.input_file)
+
     accuracy = acc / total if total > 0 else 0
     print(f"Accuracy: {accuracy:.2%} ({acc}/{total})")
 
